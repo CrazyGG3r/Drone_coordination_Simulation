@@ -60,7 +60,7 @@ class Drone:
         drone.position[1] = limit_value(drone.position[1], drone.radius, window_height - drone.radius)
 
 def drones(window):
-        
+    
     test = Drone(9)      
     
     running = True
