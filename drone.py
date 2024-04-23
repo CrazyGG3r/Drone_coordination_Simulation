@@ -3,7 +3,7 @@ import sys
 import random
 import math
 from classes import CreateDrone, limit_value
-
+from settings import * 
 # Initialize Pygame
 pygame.init()
 
@@ -70,7 +70,7 @@ def drones(window):
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.KEYDOWN:
-                if event.button == pygame.K_BACKSPACE:
+                if event.key == pygame.K_BACKSPACE:
                     return
      
         for drone in test.drones:
@@ -78,7 +78,7 @@ def drones(window):
             
     
         # Clear the window
-        window.fill(WHITE)
+        window.fill(background_color)
     
         # Draw drones
         for drone in test.drones:

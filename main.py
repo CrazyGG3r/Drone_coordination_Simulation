@@ -5,6 +5,9 @@ import classes as c
 import design as d
 import random as r
 import drone as dd
+from settings import *
+
+
 pygame.init()
 
 window_width = 1280
@@ -89,7 +92,9 @@ while running:
         reset_bg()
         tra.resetTrail()
         a.action(window)
-    window.fill(WHITE)
+        reset_bg()
+        tra.resetTrail()
+    window.fill(background_color)
     for a in squares:
         a.move(window)
         a.draw(window)

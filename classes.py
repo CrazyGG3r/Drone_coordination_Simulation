@@ -27,7 +27,7 @@ class Text:
         self.color = color
 
 
-def dummy():
+def dummy(ac = "None"):
     print("Clicked somehting",random.randint(0,10))
 
 
@@ -66,3 +66,21 @@ class button:
         else:
             pygame.draw.rect(screen, self.NotHovercolor, (self.x, self.y, self.width, self.height))
         self.text.draw(screen)
+class CreateDrone:
+    def __init__(self, radius, position, speed, destination, name, color):
+        self.radius = radius
+        self.position = position
+        self.speed = speed
+        self.des = destination
+        self.name = str(name)
+        self.color = color
+        self.fontColor = (0,190,190)
+    def draw(self, window):
+        pygame.draw.circle(window, self.color, self.position, self.radius)
+       
+        name_surface = pygame.font.SysFont(None, 20).render(self.name, True, self.fontColor)
+        window.blit(name_surface, (self.position[0] - self.radius, self.position[1] + self.radius + 10))
+
+    
+def limit_value(value, min_value, max_value):
+    return max(min_value, min(max_value, value))
