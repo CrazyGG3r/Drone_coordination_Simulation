@@ -1,3 +1,4 @@
+from venv import create
 import pygame
 pygame.init()
 import random as r 
@@ -10,10 +11,34 @@ class Square:
         self.coords = coords
         self.x = self.coords[0]
         self.y = self.coords[1]
-        self.angle = r.randint(0,360)
-        self.surface = pygame.Surface((self.l,self.l))
+        # self.angle = r.randint(0,360)
+        self.angle = 100
+        self.surface = pygame.Surface((self.l,self.l),pygame.SRCALPHA)
+        self.surface.set_alpha(10)
         self.RotationalSpeed = ra
+        speed = 10
         
+        self.directionVector = (r.randint(-speed,speed)/r.randint(10,100),r.randint(speed,speed)/r.randint(10,100))
+        print(self.directionVector)
+        
+    def move(self,screen):
+        self.x +=  self.directionVector[0]
+        self.y +=  self.directionVector[1]
+        self.coords = (self.x,self.y)
+        if self.x >= screen.get_width():
+            self.directionVector = (self.directionVector[0]*-1,self.directionVector[1])
+            
+        if self.x <= 0:
+            self.directionVector = (self.directionVector[0]*-1,self.directionVector[1])
+        
+        if self.y <= 0 :
+            self.directionVector = (self.directionVector[0],self.directionVector[1]*-1)
+        
+        if self.y >= screen.get_height():
+            self.directionVector = (self.directionVector[0],self.directionVector[1]*-1)
+        
+        
+        pass
     def draw(self, screen):  
         square_surface = pygame.Surface((self.l, self.l), pygame.SRCALPHA)
         square_surface.fill(self.color)
@@ -25,14 +50,14 @@ class Square:
         self.coords = coords
     def rotate(self,):
         pass
-        # pygame.draw.rect(screen,self.color,(self.x, self.y, self.l, self.l))
+        
 
 
 class Trailsquare:
     def __init__(self,size,):
         self.size = size
         self.trail = {}
-        self.maxsize = 10
+        self.maxsize = 20
         self.createTrail()
     
     def update(self,mouse):
@@ -43,17 +68,23 @@ class Trailsquare:
             self.trail[a] = previous
             previous = curr
             
-            
+    def resetTrail(self):
+        d = {}
+        self.trail = d
+        self.createTrail()
+                
     def createTrail(self):
         choice = [-1.1]
+        neon = 200
         for a in range(self.size):
             coo = (0,0)
-            coloro = (r.randint(150,255),r.randint(150,255),r.randint(150,255))
+            neon -= 10
+            coloro = (0,neon,neon)
             raa = r.randint(0,100)/1000
             raa = r.choice(choice) * raa
-            self.trail[Square(coo,r.randint(10,self.maxsize),coloro,raa)] = (0,0)
-        print(self.trail)
-    
+            
+            self.trail[Square(coo,r.randint(0,self.maxsize),coloro,raa)] = (0,0)
+
     def draw(self, screen):
         for a in self.trail:
             a.updateCoord(self.trail[a])

@@ -1,3 +1,4 @@
+from re import A
 import pygame
 import random
 
@@ -41,9 +42,14 @@ class button:
         self.NotHovercolor = color
         self.Hovercolor = []
         for n, a in enumerate(self.NotHovercolor):
-            a = 255 - a
+            # a = 255 - a
+            a -= 50 
             if a <= -1:
                 a *= -1
+            if a>255:
+               a = a -255
+            if a == 0:
+                continue
             self.Hovercolor.append(a)
         self.Hovercolor = tuple(self.Hovercolor)
         print(self.Hovercolor)
