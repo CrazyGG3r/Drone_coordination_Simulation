@@ -2,10 +2,59 @@ from venv import create
 import pygame
 pygame.init()
 import random as r 
+class boundary:
+    def __init__(self,coords,width,glow = 100,density = 10):
+        pass
+    
+class Background:
+    def __init__(self,window,pop= 100,style = 1):
+        self.squares = []
+        self.squares = []
+        self.population = pop
+        self.maxsize = 150
+        self.choice = [-1,1]
+        self.style = style
+        self.reset_bg(window)
+            
+    def reset_bg(self,window):
+        if self.style ==1:
+            self.reset_bg1(window)
+        if self.style ==2:
+            self.reset_bg2(window)
+    
+    def reset_bg2(self,window):
+        if self.squares:
+            for a in range(self.population):
+                self.squares.pop()
+        for a in range(self.population):
+            neon = r.randint(10,20)
+            coo = (r.randint(0,window.get_width()),r.randint(0,window.get_height()))
+            coloro = (0,neon,neon)
+            raa = r.randint(0,10)/1000
+            raa = r.choice(self.choice) * raa
+            self.squares.append(Square(coo,r.randint(30,self.maxsize),coloro,raa,1))
+            
+    def reset_bg1(self,window):
+        if self.squares:
+            for a in range(self.population):
+                self.squares.pop()
+        for a in range(self.population):
+            neon = r.randint(10,50)
+            coo = (r.randint(0,window.get_width()),r.randint(0,window.get_height()))
+            coloro = (0,neon,neon)
+            raa = r.randint(0,100)/1000
+            raa = r.choice(self.choice) * raa
+            self.squares.append(Square(coo,r.randint(10,self.maxsize),coloro,raa))
+            
+    def draw(self,window):
+        for a in self.squares:
+            a.move(window)
+            a.draw(window)
+
 
 
 class Square:
-    def __init__(self,coords,l,color,ra):
+    def __init__(self,coords,l,color,ra,speed =10):
         self.l = l
         self.color = color
         self.coords = coords
@@ -16,10 +65,9 @@ class Square:
         self.surface = pygame.Surface((self.l,self.l),pygame.SRCALPHA)
         self.surface.set_alpha(10)
         self.RotationalSpeed = ra
-        speed = 10
-        
-        self.directionVector = (r.randint(-speed,speed)/r.randint(10,100),r.randint(speed,speed)/r.randint(10,100))
-        print(self.directionVector)
+        self.speed = speed
+        self.directionVector = (r.randint(-self.speed,self.speed)/r.randint(10,100),r.randint(self.speed,self.speed)/r.randint(10,100))
+       
         
     def move(self,screen):
         self.x +=  self.directionVector[0]

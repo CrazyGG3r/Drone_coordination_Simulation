@@ -9,7 +9,6 @@ from settings import *
 
 
 pygame.init()
-
 window_width = 1280
 window_height = 720
 window = pygame.display.set_mode((window_width, window_height), pygame.RESIZABLE)
@@ -17,23 +16,7 @@ pygame.display.set_caption("Drone Coordination")
 pygame.mouse.set_visible(False)
 
 
-squares = []
-population = 100
-maxsize = 150
-choice = [-1,1]
-def reset_bg():
-    if squares:
-        for a in range(population):
-            squares.pop()
-        print(len(squares))
-    for a in range(population):
-        neon = r.randint(10,50)
-        coo = (r.randint(0,window.get_width()),r.randint(0,window.get_height()))
-        coloro = (0,neon,neon)
-        raa = r.randint(0,100)/1000
-        raa = r.choice(choice) * raa
-        squares.append(d.Square(coo,r.randint(10,maxsize),coloro,raa))
-reset_bg()        
+ 
 
 WHITE = (0,0,0)
 offsety = 40
@@ -53,7 +36,7 @@ t4 = c.Text((0, 0), sizefont, fcolor, "Exit",bf)
 b1 = c.button(((heading.x + offsetx), (heading.y + offsety + 10)), butt_w, butt_h, color_butt, (10, 5), t1,dd.drones)
 b2 = c.button((b1.x, (b1.y + offsety)), butt_w, butt_h, color_butt, (10, 5), t2)
 b3 = c.button((b2.x, (b2.y + offsety)), butt_w, butt_h, color_butt, (10, 5), t3)
-b4 = c.button((b3.x, (b3.y + offsety)), butt_w, butt_h, color_butt, (10, 5), t4)
+b4 = c.button((b3.x, (b3.y + offsety)), butt_w, butt_h, color_butt, (10, 5), t4,exit)
 all_text = [heading]
 all_butts = [b1,b2,b3,b4]
 
@@ -62,6 +45,7 @@ all_butts = [b1,b2,b3,b4]
 
 tra = d.Trailsquare(7)
    
+bgg = d.Background(window)
 
 running = True
 while running:
@@ -89,15 +73,16 @@ while running:
         else:
             a.hover = False
     for a in clicked_buttons:
-        reset_bg()
-        tra.resetTrail()
         a.action(window)
-        reset_bg()
+        bgg.reset_bg(window)
         tra.resetTrail()
+        tra.resetTrail()
+        bgg.reset_bg(window)
     window.fill(background_color)
-    for a in squares:
-        a.move(window)
-        a.draw(window)
+    # for a in bg.squares:
+    #     a.move(window)
+    #     a.draw(window)
+    bgg.draw(window)
     for a in all_text:
         a.draw(window)
     for a in all_butts:
