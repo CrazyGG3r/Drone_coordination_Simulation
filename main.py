@@ -4,6 +4,7 @@ import sys
 import classes as c
 import design as d
 import random as r
+import drone as dd
 pygame.init()
 
 window_width = 1280
@@ -33,7 +34,7 @@ reset_bg()
 
 WHITE = (0,0,0)
 offsety = 40
-offsetx = 130
+offsetx = 160
 butt_h = 40
 butt_w = 200
 neon  = 150
@@ -41,11 +42,12 @@ color_butt = (0,neon,neon)
 bf = 1
 heading = c.Text((window.get_width() // 3.2, window.get_height() // 3), 40,(200,200,200) ,"Drone Coordination Simulation",1)
 sizefont = 30
-t1 = c.Text((0, 0), sizefont, (0, 0, 0), "Start",bf)
-t2 = c.Text((0, 0), sizefont, (0, 0, 0), "Options",bf)
-t3 = c.Text((0, 0), sizefont, (0, 0, 0), "Credits",bf)
-t4 = c.Text((0, 0), sizefont, (0, 0, 0), "Exit",bf)
-b1 = c.button(((heading.x + offsetx), (heading.y + offsety)), butt_w, butt_h, color_butt, (10, 5), t1)
+fcolor = (0,10,10)
+t1 = c.Text((0, 0), sizefont, fcolor, "Start",bf)
+t2 = c.Text((0, 0), sizefont, fcolor, "Options",bf)
+t3 = c.Text((0, 0), sizefont, fcolor, "Credits",bf)
+t4 = c.Text((0, 0), sizefont, fcolor, "Exit",bf)
+b1 = c.button(((heading.x + offsetx), (heading.y + offsety + 10)), butt_w, butt_h, color_butt, (10, 5), t1,dd.drones)
 b2 = c.button((b1.x, (b1.y + offsety)), butt_w, butt_h, color_butt, (10, 5), t2)
 b3 = c.button((b2.x, (b2.y + offsety)), butt_w, butt_h, color_butt, (10, 5), t3)
 b4 = c.button((b3.x, (b3.y + offsety)), butt_w, butt_h, color_butt, (10, 5), t4)
@@ -56,11 +58,7 @@ all_butts = [b1,b2,b3,b4]
 ##=-=- backgroufn
 
 tra = d.Trailsquare(7)
-    
-
-
-
-
+   
 
 running = True
 while running:
@@ -90,7 +88,7 @@ while running:
     for a in clicked_buttons:
         reset_bg()
         tra.resetTrail()
-        a.action()
+        a.action(window)
     window.fill(WHITE)
     for a in squares:
         a.move(window)
