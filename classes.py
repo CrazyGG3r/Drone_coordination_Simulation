@@ -48,8 +48,8 @@ class button:
                 a *= -1
             if a>255:
                a = a -255
-            if a == 0:
-                continue
+            if a <= 0:
+                a = 0
             self.Hovercolor.append(a)
         self.Hovercolor = tuple(self.Hovercolor)
         print(self.Hovercolor)

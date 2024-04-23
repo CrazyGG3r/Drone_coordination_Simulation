@@ -39,7 +39,7 @@ class Background:
             for a in range(self.population):
                 self.squares.pop()
         for a in range(self.population):
-            neon = r.randint(10,50)
+            neon = r.randint(30,90)
             coo = (r.randint(0,window.get_width()),r.randint(0,window.get_height()))
             coloro = (0,neon,neon)
             raa = r.randint(0,100)/1000

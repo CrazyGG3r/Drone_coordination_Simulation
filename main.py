@@ -18,7 +18,7 @@ pygame.mouse.set_visible(False)
 
  
 
-WHITE = (0,0,0)
+
 offsety = 40
 offsetx = 160
 butt_h = 40
@@ -26,7 +26,7 @@ butt_w = 200
 neon  = 150
 color_butt = (0,neon,neon)
 bf = 1
-heading = c.Text((window.get_width() // 3.2, window.get_height() // 3), 40,(200,200,200) ,"Drone Coordination Simulation",1)
+heading = c.Text((window.get_width() // 3.2, window.get_height() // 3), 40,(0,150,150) ,"Drone Coordination Simulation",1)
 sizefont = 30
 fcolor = (0,10,10)
 t1 = c.Text((0, 0), sizefont, fcolor, "Start",bf)
@@ -45,7 +45,7 @@ all_butts = [b1,b2,b3,b4]
 
 tra = d.Trailsquare(7)
    
-bgg = d.Background(window)
+bgg = d.Background(window,100,1)
 
 running = True
 while running:
