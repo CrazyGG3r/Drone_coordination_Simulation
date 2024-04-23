@@ -40,17 +40,19 @@ class button:
         self.width = w
         self.height = h
         self.NotHovercolor = color
+        
         self.Hovercolor = []
         for n, a in enumerate(self.NotHovercolor):
             # a = 255 - a
-            a -= 50 
+            a -= 70
+            if a <= 0:
+                a = 0
             if a <= -1:
                 a *= -1
             if a>255:
                a = a -255
-            if a <= 0:
-                a = 0
             self.Hovercolor.append(a)
+        
         self.Hovercolor = tuple(self.Hovercolor)
         print(self.Hovercolor)
         self.text = None
