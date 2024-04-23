@@ -1,17 +1,16 @@
 import pygame
 import random
 
-font = ['assets/fonts/f1.ttf',None]
-
+font = ['assets/fonts/f1.ttf','assets/fonts/f2.ttf']
 
 class Text:
-    def __init__(self, coords, font_size, color, text, fonts=None):
+    def __init__(self, coords, font_size, color, text, fonts=0):
         self.text = text
         self.font_size = font_size
         self.color = color
         self.x = coords[0]
         self.y = coords[1]
-        self.font = pygame.font.Font(font[1], font_size)
+        self.font = pygame.font.Font(font[fonts], font_size)
         self.surface = self.font.render(text, True, color)
 
     def update_text(self, new_text):
@@ -32,7 +31,7 @@ def dummy():
 
 
 class button:
-    def __init__(self, coords, w, h, color,padding, butt_text, function = None):
+    def __init__(self, coords, w, h, color,padding, butt_text, function = dummy):
         self.x = coords[0]
         self.y = coords[1]
         self.pad_x = self.x + padding[0]
@@ -52,7 +51,7 @@ class button:
         self.hover = False
         self.text = butt_text
         self.text.update_coords((self.pad_x,self.pad_y))
-        self.action = dummy
+        self.action = function
         self.isClicked = False
 
     def draw(self, screen,):
