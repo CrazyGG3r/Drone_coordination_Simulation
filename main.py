@@ -1,3 +1,4 @@
+from turtle import Screen
 import pygame
 import sys
 import classes as c
@@ -9,6 +10,26 @@ window_width = 1280
 window_height = 720
 window = pygame.display.set_mode((window_width, window_height), pygame.RESIZABLE)
 pygame.display.set_caption("Drone Coordination")
+
+
+
+squares = []
+population = 100
+maxsize = 200
+choice = [-1,1]
+def reset_bg():
+    
+    if squares:
+        for a in range(population):
+            squares.pop()
+        print(len(squares))
+    for a in range(100):
+        coo = (r.randint(0,window.get_width()),r.randint(0,window.get_height()))
+        coloro = (r.randint(0,40),r.randint(10,50),r.randint(10,50))
+        raa = r.randint(0,100)/1000
+        raa = r.choice(choice) * raa
+        squares.append(d.Square(coo,r.randint(10,maxsize),coloro,raa))
+reset_bg()        
 
 WHITE = (0,10,10)
 offsety = 40
@@ -33,19 +54,9 @@ all_butts = [b1,b2,b3,b4]
 
 ##=-=- backgroufn
 
-squares = []
-population = 100
-maxsize = 200
-choice = [-1,1]
-def reset_bg():
-    for a in range(100):
-        coo = (r.randint(0,window.get_width()),r.randint(0,window.get_height()))
-        coloro = (0,r.randint(10,50),r.randint(10,50))
-        raa = r.randint(0,100)/600
-        raa = r.choice(choice) * raa
-        squares.append(d.Square(coo,r.randint(10,maxsize),coloro,raa))
+tra = d.Trailsquare(7)
     
-reset_bg()
+
 
 
 
@@ -76,6 +87,7 @@ while running:
         else:
             a.hover = False
     for a in clicked_buttons:
+        reset_bg()
         a.action()
     window.fill(WHITE)
     for a in squares:
@@ -84,7 +96,10 @@ while running:
         a.draw(window)
     for a in all_butts:
         a.draw(window)
-    
+    m = pygame.mouse.get_pos()
+    print(m)
+    tra.update((m[0],m[1]))
+    tra.draw(window)
     pygame.display.flip()
 
 
