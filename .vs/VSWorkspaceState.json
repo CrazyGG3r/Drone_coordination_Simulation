@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\.github\\workflows"
   ],
-  "SelectedNode": "\\main.py",
+  "SelectedNode": "\\settings.py",
   "PreviewInSolutionExplorer": false
 }

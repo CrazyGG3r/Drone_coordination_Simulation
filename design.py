@@ -21,6 +21,8 @@ class Background:
             self.reset_bg1(window)
         if self.style ==2:
             self.reset_bg2(window)
+        if self.style ==3:
+            self.reset_bg3(window)
     
     def reset_bg2(self,window):
         if self.squares:
@@ -34,6 +36,16 @@ class Background:
             raa = r.choice(self.choice) * raa
             self.squares.append(Square(coo,r.randint(30,self.maxsize),coloro,raa,1))
             
+    def reset_bg3(self,window):
+        if self.squares:
+            for a in range(self.population):
+                self.squares.pop()
+        for a in range(self.population):
+            neon = r.randint(30,60)
+            coo = (r.randint(0,window.get_width()),r.randint(0,window.get_height()))
+            coloro = (0,neon,neon)
+            raa = r.randint(0,100)/200
+            self.squares.append(Square(coo,r.randint(5,self.maxsize-100),coloro,raa))
     def reset_bg1(self,window):
         if self.squares:
             for a in range(self.population):
@@ -134,6 +146,8 @@ class Trailsquare:
             self.trail[Square(coo,r.randint(0,self.maxsize),coloro,raa)] = (0,0)
 
     def draw(self, screen):
-        for a in self.trail:
+        keys_reversed = list(self.trail.keys())[::-1]
+        for a in keys_reversed:
             a.updateCoord(self.trail[a])
             a.draw(screen)
+        
