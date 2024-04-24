@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\assets",
+    "\\assets\\fonts"
   ],
-  "SelectedNode": "\\classes.py",
+  "SelectedNode": "\\3d.py",
   "PreviewInSolutionExplorer": false
 }
