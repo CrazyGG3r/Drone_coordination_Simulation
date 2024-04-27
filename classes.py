@@ -174,11 +174,16 @@ class CreateSpheres:
         self.slices=slices
         self.position=position
         self.quadric = gluNewQuadric()
-        
-    # Function to draw a solid sphere
-    def draw_sphere(self):
+            
+    def draw_sphere(self, is_stationary):
         glPushMatrix()
         glTranslatef(*self.position)
+        
+        if is_stationary:
+            glColor3f(1.0, 0.0, 0.0)  # Red color for stationary spheres
+        else:
+            glColor3f(0.0, 1.0, 0.0)  # Green color for moving spheres
+        
         gluSphere(self.quadric, self.radius, self.slices, self.slices)
         glPopMatrix()
 
