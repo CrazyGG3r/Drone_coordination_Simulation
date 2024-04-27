@@ -1,6 +1,10 @@
 from re import A
 import pygame
 import random
+from pygame.locals import *
+from OpenGL.GL import *
+from OpenGL.GLU import *
+from math import sin, cos, radians
 
 font = ['assets/fonts/f1.ttf','assets/fonts/f2.ttf']
 
@@ -66,6 +70,7 @@ class button:
         else:
             pygame.draw.rect(screen, self.NotHovercolor, (self.x, self.y, self.width, self.height))
         self.text.draw(screen)
+        
 class CreateDrone:
     def __init__(self, radius, position, speed, destination, name, color):
         self.radius = radius
@@ -84,3 +89,100 @@ class CreateDrone:
     
 def limit_value(value, min_value, max_value):
     return max(min_value, min(max_value, value))
+
+
+class CreateEnvironment:
+    def __init__(self, screen_center):
+        self.screen_center = screen_center
+        pygame.mouse.set_visible(False)
+        pygame.mouse.set_pos(screen_center)
+        
+    # Function to draw grid on xy and xz planes
+    def draw_grid(self, size, step):  # Added 'self' as the first parameter
+        glBegin(GL_LINES)
+        for x in range(-size, size + 1, step):
+            glVertex3f(x, 0, -size)
+            glVertex3f(x, 0, size)
+        for z in range(-size, size + 1, step):
+            glVertex3f(-size, 0, z)
+            glVertex3f(size, 0, z)
+        glEnd()
+
+        glBegin(GL_LINES)
+        for x in range(-size, size + 1, step):
+            glVertex3f(x, -size, 0)
+            glVertex3f(x, size, 0)
+        for y in range(-size, size + 1, step):
+            glVertex3f(-size, y, 0)
+            glVertex3f(size, y, 0)
+        glEnd()
+
+    # Function to handle lighting
+    def setup_lighting(self):  # Added 'self' as the first parameter
+        glEnable(GL_LIGHTING)
+        glEnable(GL_LIGHT0)
+        glEnable(GL_COLOR_MATERIAL)
+
+        light_ambient = [0.2, 0.2, 0.2, 1.0]
+        light_diffuse = [1.0, 1.0, 1.0, 1.0]
+        light_specular = [1.0, 1.0, 1.0, 1.0]
+        light_position = [2.0, 2.0, 2.0, 1.0]
+
+        glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient)
+        glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse)
+        glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular)
+        glLightfv(GL_LIGHT0, GL_POSITION, light_position)
+        
+        glClearColor(0.0, 0.0, 0.0, 1.0)  # Clear color (black)
+        glColor3f(0.0, 1.0, 0.0)  # Drawing color (green)
+        
+    # Function to handle mouse input for camera control
+    def handle_mouse(self):
+        sensitivity = 0.1
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+        delta_x = mouse_x - self.screen_center[0]
+        delta_y = mouse_y - self.screen_center[1]
+
+        glRotatef(delta_y * sensitivity, 1, 0, 0)  # Rotate around the x-axis
+        glRotatef(delta_x * sensitivity, 0, 1, 0)  # Rotate around the y-axis
+
+        pygame.mouse.set_pos(self.screen_center)
+        
+    # Handles key press for movement and rotation
+    def handle_keys(self):  # Added 'self' as the first parameter
+        keys = pygame.key.get_pressed()
+        move_speed = 0.1
+        rotate_speed = 1
+
+        if keys[K_w]:
+            glTranslatef(0, 0, move_speed)
+        if keys[K_s]:
+            glTranslatef(0, 0, -move_speed)
+        if keys[K_a]:
+            glTranslatef(move_speed, 0, 0)
+        if keys[K_d]:
+            glTranslatef(-move_speed, 0, 0)
+        if keys[K_q]:
+            glTranslatef(0, move_speed, 0)
+        if keys[K_e]:
+            glTranslatef(0, -move_speed, 0)
+    
+            
+class CreateSpheres:
+    def __init__(self,radius,slices,position):
+        self.radius=radius
+        self.slices=slices
+        self.position=position
+        self.quadric = gluNewQuadric()
+        
+    # Function to draw a solid sphere
+    def draw_sphere(self):
+        glPushMatrix()
+        glTranslatef(*self.position)
+        gluSphere(self.quadric, self.radius, self.slices, self.slices)
+        glPopMatrix()
+
+def distance(point1, point2):
+    return ((point1[0] - point2[0]) ** 2 + (point1[1] - point2[1]) ** 2 + (point1[2] - point2[2]) ** 2) ** 0.5
+    
+    
