@@ -189,5 +189,23 @@ class CreateSpheres:
 
 def distance(point1, point2):
     return ((point1[0] - point2[0]) ** 2 + (point1[1] - point2[1]) ** 2 + (point1[2] - point2[2]) ** 2) ** 0.5
+
+class CreateParticles:
+    def __init__(self, radius, slices, position):
+        self.radius = radius
+        self.slices = slices
+        self.position = position
+
+    def draw_particle(self):
+        glPushMatrix()
+        glTranslatef(*self.position)
+        glColor3f(0.0, 1.0, 0.0)  # Set particle color to green
+        quadric = gluNewQuadric()
+        gluSphere(quadric, self.radius, self.slices, self.slices)  # Draw sphere using gluSphere
+        glPopMatrix()
+
+
+
+
     
     
