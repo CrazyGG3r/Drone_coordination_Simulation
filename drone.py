@@ -2,9 +2,10 @@ import pygame
 import sys
 import random
 import math
-from classes import CreateDrone, limit_value
+from classes import CreateDrone, limit_value,button,Text
 from settings import * 
 import design as d
+import colors as cc
 # Initialize Pygame
 pygame.init()
 
@@ -17,7 +18,7 @@ pygame.display.set_caption("Moving Drones")
 
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
-GREEN = (0, 255, 0)
+GREEN = cc.colorlist[12]
 
 class Drone:
     def __init__(self, quantity):
@@ -61,12 +62,19 @@ class Drone:
         drone.position[1] = limit_value(drone.position[1], drone.radius, window_height - drone.radius)
 
 def drones(window):
-    bgg = d.Background(window,50,2)  
+    bgg = d.Background(window,10,2)  
     trail = d.Trailsquare(5)
     test = Drone(9)      
     
+    t1 = Text((0,0),30,(0,0,0),"Change to threeD",3)
+    
+    button
+    b1 = button((100 ,500),300,40,(0,0,0),(10,5),t1,)
+    all_butts = [b1]
+    
     running = True
     while running:
+        clicked_buttons = []
         # Event handling
         window.fill(background_color)
         bgg.draw(window)
@@ -76,6 +84,23 @@ def drones(window):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_BACKSPACE:
                     return
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                for a in all_butts:
+                    if a.hover and not a.isClicked:
+                            a.isClicked = True
+                            clicked_buttons.append(a)
+        m = pygame.mouse.get_pos()
+        for a in all_butts:
+            if m[0] > a.x and m[1] > a.y:
+                if m[0] < (a.x + a.width) and m[1] < (a.y + a.height):
+                    a.hover = True
+                else:
+                    a.hover = False
+            else:
+                a.hover = False
+        for a in clicked_buttons:
+            a.action(window)
+            a.isClicked = False
         for drone in test.drones:
             test.check(drone)
             
@@ -88,9 +113,10 @@ def drones(window):
         for drone in test.drones:
             drone.draw(window)
     
-        
+        for a in all_butts:
+            a.draw(window)
         test.destination.draw(window)
-    
+        
         # Update the display
         pygame.display.flip()
     

@@ -1,14 +1,15 @@
 from re import A
 import pygame
 import random
-
-font = ['assets/fonts/f1.ttf','assets/fonts/f2.ttf']
+import colors as c
+font = ['assets/fonts/f1.ttf','assets/fonts/f2.ttf','assets/fonts/f2.ttf','assets/fonts/f2.ttf']
 
 class Text:
     def __init__(self, coords, font_size, color, text, fonts=0):
         self.text = text
         self.font_size = font_size
         self.color = color
+        self.color2 = color
         self.x = coords[0]
         self.y = coords[1]
         self.font = pygame.font.Font(font[fonts], font_size)
@@ -17,14 +18,17 @@ class Text:
     def update_text(self, new_text):
         self.text = new_text
         self.surface = self.font.render(new_text, True, self.color)
+        
     def update_coords(self, coords):
         self.x = coords[0]
         self.y = coords[1]
     def draw(self, screen):
         screen.blit(self.surface, (self.x, self.y))
+    def updateColor(self):
+        self.changecolor(c.colorlist[12])
 
     def changecolor(self, color):
-        self.color = color
+        self.surface = self.font.render(self.text, True, color)
 
 
 def dummy(ac = "None"):
@@ -35,26 +39,15 @@ class button:
     def __init__(self, coords, w, h, color,padding, butt_text, function = dummy):
         self.x = coords[0]
         self.y = coords[1]
+        self.padding = padding
         self.pad_x = self.x + padding[0]
         self.pad_y = self.y + padding[1]
         self.width = w
         self.height = h
-        self.NotHovercolor = color
-        
-        self.Hovercolor = []
-        for n, a in enumerate(self.NotHovercolor):
-            # a = 255 - a
-            a -= 70
-            if a <= 0:
-                a = 0
-            if a <= -1:
-                a *= -1
-            if a>255:
-               a = a -255
-            self.Hovercolor.append(a)
-        
-        self.Hovercolor = tuple(self.Hovercolor)
-        print(self.Hovercolor)
+        self.NotHovercolor = c.colorlist[9]
+        self.Hovercolor = c.colorlist[4]
+
+        self.disabled = False
         self.text = None
         self.hover = False
         self.text = butt_text
@@ -63,11 +56,28 @@ class button:
         self.isClicked = False
 
     def draw(self, screen,):
+        self.updateColor()
+        self.text.updateColor()
         if self.hover:
-            pygame.draw.rect(screen, self.Hovercolor, (self.x, self.y, self.width, self.height))
+            pygame.draw.rect(screen, self.Hovercolor, (self.x, self.y, self.width, self.height),)
+            self.text.color2 = c.colorlist[12]
+            self.text.changecolor(self.text.color2)
+            self.text.draw(screen)
         else:
-            pygame.draw.rect(screen, self.NotHovercolor, (self.x, self.y, self.width, self.height))
-        self.text.draw(screen)
+            pygame.draw.rect(screen, self.NotHovercolor, (self.x, self.y, self.width, self.height),)
+            self.text.changecolor(c.colorlist[2])
+            self.text.draw(screen)
+            self.text.draw(screen)
+    def updateColor(self):
+        self.NotHovercolor = c.colorlist[9]
+        self.Hovercolor = c.colorlist[4]
+    def update_Coords(self,coords):
+        self.x = coords[0]
+        self.y = coords[1]
+        self.pad_x = self.x + self.padding[0]
+        self.pad_y = self.y + self.padding[1]
+        self.text.update_coords((self.pad_x,self.pad_y))
+        
 class CreateDrone:
     def __init__(self, radius, position, speed, destination, name, color):
         self.radius = radius
