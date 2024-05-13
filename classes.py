@@ -174,6 +174,7 @@ class CreateSpheres:
         self.slices=slices
         self.position=position
         self.quadric = gluNewQuadric()
+        self.assigned = False
             
     def draw_sphere(self, is_stationary):
         glPushMatrix()
@@ -195,6 +196,7 @@ class CreateParticles:
         self.radius = radius
         self.slices = slices
         self.position = position
+        
 
     def draw_particle(self):
         glPushMatrix()
